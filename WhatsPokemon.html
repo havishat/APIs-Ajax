@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Pokeapi</title>
+         <style>
+        .cover{
+            width: 960px;
+        }
+
+        img{
+            height: 100px;
+        }
+
+        .iconpokemon{
+            width: 500px;
+            vertical-align: top;
+            display: inline-block;
+        }
+
+        .sidebox{
+            width: 200px;
+            height:500px;
+            border: 20px solid red;
+            vertical-align: top;
+            display: inline-block;
+
+        }
+
+    </style>
+    
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+            <script>
+               
+                $(document).ready(function(){
+                     var HTMLstring = "";
+                                
+                for(var i = 1; i< 151; i++){
+                    HTMLstring += '<img id='+i+' src="http://pokeapi.co/media/img/'+i+'.png">'    
+                }
+                $(".iconpokemon").append(HTMLstring)
+
+                $(document).on('click','img',function() {
+                    
+                    var imagenumber = $(this).attr('id');
+
+                    $.get("http://pokeapi.co/api/v1/pokemon/" +imagenumber, function(res) {
+                        var html_str = "";
+                        html_str += "<h1>"+res.name+"</h1>";
+                        html_str += "<img src=http://pokeapi.co/media/img/"+imagenumber+ ".png>";
+                        html_str += "<h4>Types</h4>"
+                        html_str += "<ul>"; 
+                        for(var i = 0; i < res.types.length; i++) {
+                            html_str += "<li>" + res.types[i].name + "</li>";
+                        }     
+                        html_str += "</ul>";
+
+                        html_str += "<h4>Height</h4>";
+                        html_str += "" + res.height + "";
+
+                        html_str += "<h4>Weight</h4>";
+                        html_str += "" + res.weight + "";
+                        $(".sidebox").html(html_str);   
+                    }, "json");
+                })                   
+            }) 
+            </script>
+    </head>
+    <body>
+
+        <div class="wrapper">
+            <div class="iconpokemon">
+            </div>
+            <div class="sidebox">
+            </div>
+        </div>
+
+    </body>
+</html>
