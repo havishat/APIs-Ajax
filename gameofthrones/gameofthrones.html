@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Gameofthrones</title>
+        <style>
+            .wrapper{
+                width: 960px;
+                height: 900px;
+            }
+            img{
+                width: 200px;
+                height: 200px;
+                margin-left: 10px;
+            }
+
+            .gameofthrones{
+            width: 900px;
+            vertical-align: top;
+            display: inline-block;
+            }
+
+            .bottombox{
+            width: 500px;
+            height:200px;
+            margin-top: 60px;
+            margin-left: 100px;
+            border: 20px solid black;
+            vertical-align: bottom;
+            display: inline-block;
+
+            }
+            h1{
+                font-size: 15px;
+            }
+
+        </style>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"> </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var HTMLstring = "";
+                HTMLstring += '<img src = "stark.jpg" id = "362" />';
+                HTMLstring += '<img src = "targaryen.jpg" id= "378" />';
+                HTMLstring += '<img src = "lannister.jpg" id = "230" />';
+                HTMLstring += '<img src = "baratheon.png" id = "17" />';
+                $(".gameofthrones").append(HTMLstring)
+                $(document).on('click','img',function() {
+                    var housenumber = $(this).attr('id');
+                    // your code here (build up your url)
+                    $.get('https://anapioficeandfire.com/api/houses/'+housenumber+'/', function(res) {
+                        // your code here         
+                            var html_str = ""; 
+                            html_str += "<h1> Name: "+res.name+"</h1>";
+                            html_str += "<h1> Words: "+res.words+"</h1>";
+                            html_str += "Titles: ";
+                            for(var i = 0; i < res.titles.length; i++) {
+                                html_str += " " + res.titles[i] + ", ";
+                            }
+                            html_str = html_str.slice(0,html_str.length-2);
+                           
+                            $(".bottombox").html(html_str);  
+                    }, 'json');
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="gameofthrones">
+            </div>
+            <div class="bottombox">
+            </div>
+        </div>
+    </body>
+</html>
